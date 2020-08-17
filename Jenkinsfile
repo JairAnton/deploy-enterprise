@@ -5,10 +5,10 @@ pipeline {
     }
 	
     environment {
-    	USERNAME = 'adminivr1@grupocobra.com.ivrdev2'
+    	USERNAME = 'test.qa@independent.com.qa'
     	HOST = 'https://test.salesforce.com'
-    	JWT_KEY_CRED_ID = '2bf2a624-7cc1-4f62-b584-6eaf9f65ac1c'
-    	APP_KEY = '3MVG9Lu3LaaTCEgKX44Wa5IzXAxZX7rAKd0pbn3afesE6sW81OcIIgx9Ok4I.bwflZbDkd2hyr5SLF0A9Sjx5'
+    	JWT_KEY_CRED_ID = '	2bf2a624-7cc1-4f62-b584-6eaf9f65ac1c'
+    	APP_KEY = '3MVG9c1ghSpUbLl_IxBNYH.gK6tuc6I01uwv00pBt8_jo0wr8qs343M.DfWVghj2yj4VATte8rnu2xL1p2Y52'
 		STATUS = '' 
     }
 	
@@ -28,7 +28,7 @@ pipeline {
 			steps {
 				withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
 					script {
-						STATUS = bat(returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${APP_KEY} --username ${USERNAME} --jwtkeyfile ./server.key --instanceurl ${HOST}") 
+						STATUS = bat(returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${APP_KEY} --username ${USERNAME} --jwtkeyfile ./server.key --instanceurl ${HOST} -a QA") 
 					}
 					echo "status -> ${STATUS}" 
 				}
