@@ -21,6 +21,7 @@ pipeline {
 				echo "host -> ${JWT_KEY_CRED_ID}"
 				echo "key -> ${APP_KEY}"
 				echo "stage ->  ${STAGE}"
+				echo "deploy to ->  ${DEPLOY_TO}"
             }
         }
 	    
