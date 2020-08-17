@@ -1,5 +1,5 @@
 public with sharing class QAClass {
-    public QAClass() {
+    public static void QAClassMethod() {
         System.debug('QA Class');
     }
 }
