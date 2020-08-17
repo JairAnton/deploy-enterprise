@@ -12,6 +12,7 @@
   </types>
   <types>
     <name>CustomObject</name>
+    <members>Jenkins_Develop3__c</members>
     <members>QA_Object__c</members>
   </types>
   <types>
