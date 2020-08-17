@@ -12,6 +12,7 @@ pipeline{
 		STATUS_AUTH = ''
 		STATUS_CONVERT = ''
 		STATUS_VALIDATE = ''
+		STATUS_DEPLOY = ''
     }
 	
     stages {
@@ -55,11 +56,27 @@ pipeline{
 					STATUS_CONVERT = bat(returnStatus: true, script: "sfdx force:source:convert -d ./src") 
 					echo "status convert -> ${STATUS_CONVERT}" 
 
-					if(STATUS_AUTH == 0){
+					// Valida el status de la conversión de la metadata
+					if(STATUS_CONVERT == 0){
 						STATUS_VALIDATE = bat(returnStatus: true, script: "sfdx force:mdapi:deploy -l RunLocalTests -c -d ./src -u ${USERNAME} -w 20")
 						echo "status validate -> ${STATUS_VALIDATE}"
 						
+						// Valida el status del test
+						if(STATUS_VALIDATE == 0){
+							STATUS_DEPLOY = bat(returnStatus: true, script: "sfdx force:mdapi:deploy -d ./src -u ${USERNAME} -w 20")
+							echo "status deploy -> ${STATUS_DEPLOY}"
 
+							// Valida el status del despliegue
+							if(STATUS_DEPLOY == 0){
+								echo "deploy exitoso -> ${STATUS_DEPLOY}"	
+							}
+							else{
+								error('Error en el despliegue de la metadata.')
+							}
+						}
+						else{
+							error('Error en la validación del test.')
+						}
 					}
 					else{
 						error('Error en la conversion de la metadata.')
