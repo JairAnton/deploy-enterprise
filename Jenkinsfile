@@ -9,10 +9,10 @@ pipeline{
     	HOST = 'https://test.salesforce.com'
     	JWT_KEY_CRED_ID = '	2bf2a624-7cc1-4f62-b584-6eaf9f65ac1c'
     	APP_KEY = '3MVG9c1ghSpUbLl_IxBNYH.gK6tuc6I01uwv00pBt8_jo0wr8qs343M.DfWVghj2yj4VATte8rnu2xL1p2Y52'
-		STATUS_AUTH = ''
-		STATUS_CONVERT = ''
-		STATUS_VALIDATE = ''
-		STATUS_DEPLOY = ''
+      STATUS_AUTH = ''
+      STATUS_CONVERT = ''
+      STATUS_VALIDATE = ''
+      STATUS_DEPLOY = ''
     }
 	
     stages {
