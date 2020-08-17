@@ -75,7 +75,7 @@ pipeline{
 							}
 						}
 						else{
-							error('Error en la validación del test.')
+							error('Error en la validacion del test.')
 						}
 					}
 					else{
