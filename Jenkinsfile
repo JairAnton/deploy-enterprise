@@ -1,11 +1,11 @@
-pipeline {
+pipeline{
     agent any
-    tools {
+    tools{
 		nodejs "node"
     }
 	
     environment {
-    	USERNAME = 'test.qa1@independent.com.qa'
+    	USERNAME = 'test.qa@independent.com.qa'
     	HOST = 'https://test.salesforce.com'
     	JWT_KEY_CRED_ID = '	2bf2a624-7cc1-4f62-b584-6eaf9f65ac1c'
     	APP_KEY = '3MVG9c1ghSpUbLl_IxBNYH.gK6tuc6I01uwv00pBt8_jo0wr8qs343M.DfWVghj2yj4VATte8rnu2xL1p2Y52'
@@ -29,8 +29,8 @@ pipeline {
 			steps{
 				withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]){
 					script{
-						STATUS_AUTH = bat(returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${APP_KEY} --username ${USERNAME} --jwtkeyfile ./server.key --instanceurl ${HOST}") 
-
+						//STATUS_AUTH = bat(returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${APP_KEY} --username ${USERNAME} --jwtkeyfile ./server.key --instanceurl ${HOST}") 
+						STATUS_AUTH = 1
 						if(STATUS_AUTH == 1){
 							error('Error en la autorización de la organización.')
 						}
@@ -40,8 +40,8 @@ pipeline {
 			}   
 		}
 
-		stage('deploy-to-develop'){
-			when{ expression { STATUS_AUTH == 0 && DEPLOY_TO == 'DEVELOP' }  }
+		stage('deploy-to-dev'){
+			when{ expression { STATUS_AUTH == 0 && DEPLOY_TO == 'DEV' }  }
 			steps{
 				echo 'develop'
 			}	
@@ -54,7 +54,9 @@ pipeline {
 				script{
 					STATUS_CONVERT = bat(returnStatus: true, script: "sfdx force:source:convert -d ./src") 
 				
-
+					if(STATUS_AUTH == 1){
+						error('Error en la conversión de la metadata.')
+					}
 				}
 				echo "status convert -> ${STATUS_CONVERT}"  
 			}
