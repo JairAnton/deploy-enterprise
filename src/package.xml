@@ -6,5 +6,17 @@
     <members>Develop4Class</members>
     <members>QAClass</members>
   </types>
+  <types>
+    <name>Layout</name>
+    <members>QA_Object__c-QA Object Layout</members>
+  </types>
+  <types>
+    <name>CustomObject</name>
+    <members>QA_Object__c</members>
+  </types>
+  <types>
+    <name>Profile</name>
+    <members>Admin</members>
+  </types>
   <version>49.0</version>
 </Package>
