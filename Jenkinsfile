@@ -29,13 +29,13 @@ pipeline{
 			steps{
 				withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]){
 					script{
-						//STATUS_AUTH = bat(returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${APP_KEY} --username ${USERNAME} --jwtkeyfile ./server.key --instanceurl ${HOST}") 
-						STATUS_AUTH = 1
+						STATUS_AUTH = bat(returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${APP_KEY} --username ${USERNAME} --jwtkeyfile ./server.key --instanceurl ${HOST}") 
+						echo "status -> ${STATUS_AUTH}"
+
 						if(STATUS_AUTH == 1){
-							error('Error en la autorización de la organización.')
+							error('Error en la autorizacion de la organizacion.')
 						}
 					}
-					echo "status -> ${STATUS_AUTH}" 
 				}
 			}   
 		}
@@ -53,12 +53,16 @@ pipeline{
 				echo 'test'
 				script{
 					STATUS_CONVERT = bat(returnStatus: true, script: "sfdx force:source:convert -d ./src") 
-				
-					if(STATUS_AUTH == 1){
-						error('Error en la conversión de la metadata.')
+					echo "status convert -> ${STATUS_CONVERT}" 
+
+					if(STATUS_AUTH == 0){
+						echo "status convert steps" 
+					}
+					else{
+						error('Error en la conversion de la metadata.')
 					}
 				}
-				echo "status convert -> ${STATUS_CONVERT}"  
+				 
 			}
 		}
 			
