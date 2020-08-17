@@ -40,10 +40,6 @@ pipeline {
 			when { expression { STATUS_AUTH == 0 && DEPLOY_TO == 'DEVELOP' }  }
 			steps {
 				echo 'develop'
-				script {
-						STATUS_CONVERT = bat(returnStatus: true, script: "sfdx force:source:convert -d ./src") 
-				}
-				echo "status convert -> ${STATUS_CONVERT}"  
 			}	
 		}
 			
@@ -51,6 +47,10 @@ pipeline {
 			when { expression { STATUS_AUTH == 0 && DEPLOY_TO == 'TEST' } }
 			steps {
 				echo 'test'
+				script {
+						STATUS_CONVERT = bat(returnStatus: true, script: "sfdx force:source:convert -d ./src") 
+				}
+				echo "status convert -> ${STATUS_CONVERT}"  
 			}
 		}
 			
