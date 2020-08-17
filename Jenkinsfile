@@ -11,6 +11,7 @@ pipeline{
     	APP_KEY = '3MVG9c1ghSpUbLl_IxBNYH.gK6tuc6I01uwv00pBt8_jo0wr8qs343M.DfWVghj2yj4VATte8rnu2xL1p2Y52'
 		STATUS_AUTH = ''
 		STATUS_CONVERT = ''
+		STATUS_VALIDATE = ''
     }
 	
     stages {
@@ -30,7 +31,7 @@ pipeline{
 				withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]){
 					script{
 						STATUS_AUTH = bat(returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${APP_KEY} --username ${USERNAME} --jwtkeyfile ./server.key --instanceurl ${HOST}") 
-						echo "status -> ${STATUS_AUTH}"
+						echo "status authorization -> ${STATUS_AUTH}"
 
 						if(STATUS_AUTH == 1){
 							error('Error en la autorizacion de la organizacion.')
@@ -50,19 +51,20 @@ pipeline{
 		stage('deploy-to-qa'){
 			when{ expression { STATUS_AUTH == 0 && DEPLOY_TO == 'TEST' } }
 			steps{
-				echo 'test'
 				script{
 					STATUS_CONVERT = bat(returnStatus: true, script: "sfdx force:source:convert -d ./src") 
 					echo "status convert -> ${STATUS_CONVERT}" 
 
 					if(STATUS_AUTH == 0){
-						echo "status convert steps" 
+						STATUS_VALIDATE = bat(returnStatus: true, script: "sfdx force:mdapi:deploy -l RunLocalTests -c -d ./src -u ${USERNAME} -w 20")
+						echo "status validate -> ${STATUS_VALIDATE}"
+						
+
 					}
 					else{
 						error('Error en la conversion de la metadata.')
 					}
 				}
-				 
 			}
 		}
 			
