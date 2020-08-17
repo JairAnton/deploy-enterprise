@@ -154,12 +154,12 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <gender>Feminine</gender>
-    <label>QA Object</label>
+    <label>Develop3 Test2</label>
     <nameField>
-        <label>QA Object Name</label>
+        <label>Develop3 Test2 Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>QA Objects</pluralLabel>
+    <pluralLabel>Develop3_Tests2</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
